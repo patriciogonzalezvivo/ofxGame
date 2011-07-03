@@ -1,6 +1,5 @@
 /*
  *  ofxClock.h
- *  Pakapaka
  *
  *  Created by Patricio González Vivo on 25/06/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
@@ -44,21 +43,13 @@ public:
 			height	= font.stringHeight(time);
 			
 			ofPushMatrix();
-			ofTranslate(_x ,_y);
+			ofTranslate(_x -width*0.5,_y -height*0.5);
 			ofScale(scale, scale);
-			font.drawString(time,-width*0.5,-height*0.5);
+			font.drawString(time,0,0);
 			
-			if (*bDebug){
-				ofSetColor(255, 100);
-				ofLine(0,0, 0, height);
-				ofLine(0,0, width, 0);
-				ofLine(width,0, 0, 0);
-				ofLine(0,height, 0, 0);
-				ofLine(0,height,width,height);
-				ofLine(0, 0, width, height);
-				ofLine(width,0,0,height);
-				ofSetColor(255, 255);
-			}
+			ofTranslate(0, -height);
+			if (*bDebug)
+				drawBoundingBox();
 			
 			ofPopMatrix();
 		}

@@ -1,6 +1,5 @@
 /*
  *  ofxObject.h
- *  pakapakaCorto
  *
  *  Created by Patricio González Vivo on 30/06/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
@@ -24,6 +23,20 @@ public:
 		file = "none";
 	};
 	
+	void drawBoundingBox(){
+		glLineWidth(0);
+		ofSetColor(255, 255);
+		ofLine(0,0, 0, height);
+		ofLine(0,0, width, 0);
+		ofLine(width,0, 0, 0);
+		ofLine(0,height, 0, 0);
+		ofLine(0,height,width,height);
+		ofLine(0, 0, width, height);
+		ofLine(width,0,0,height);
+		ofLine(width,0,width,height);
+		ofSetColor(255, 255);
+	}
+	
 	float	getScaledWidth(){return width * scale;};
 	float	getScaledHeight(){return height * scale;};
 	ofPoint	getPosition(){ return ofPoint(x,y);};
@@ -35,7 +48,7 @@ public:
 	void	expand(float _scaleAmount){ scale += _scaleAmount; saveXml(); };
 	void	contract(float _scaleAmount){ scale -= _scaleAmount; saveXml(); };
 	
-	bool	isOver(int _x, int _y){
+	bool	isOver(float _x, float _y){
 		bool result = false;
 		if ((_x > x - width*0.5) &&
 			(_x < x + width*0.5) &&
@@ -45,7 +58,7 @@ public:
 		return result;
 	};
 	
-//protected:	
+protected:	
 	void	loadXml(string filePath = "config.xml" ){
 		ofxXmlSettings XML;
 		cout << "Reading " << objectName << " configuration file " << filePath;

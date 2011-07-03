@@ -1,6 +1,5 @@
 /*
  *  ofxUser.h
- *  pakapakaCorto
  *
  *  Created by Patricio González Vivo on 30/06/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
@@ -25,7 +24,7 @@ public:
 		saveXml();
 	};
 		
-	void	update(unsigned char * mskPixels, unsigned char * imagePixels, int blurAmount){
+	void update(unsigned char * mskPixels, unsigned char * imagePixels, int blurAmount){
 		superFastBlur(mskPixels, blurAmount);
 		
 		unsigned char * fPixels = usersMasked.getPixels();
@@ -42,9 +41,8 @@ public:
 		usersMasked.setFromPixels( fPixels , width, height, OF_IMAGE_COLOR_ALPHA);
 	};
 	
-	void	draw(){ draw(x,y);};
-	
-	void	draw(int _x, int _y){
+	void draw(){ draw(x,y); };
+	void draw(int _x, int _y){
 		ofPushMatrix();
 		ofTranslate(_x-width*0.5,_y-height*0.5);
 		ofScale(scale, scale);
@@ -52,17 +50,8 @@ public:
 		ofSetColor(255, 255);
 		usersMasked.draw(0, 0);
 		
-		if (*bDebug){
-			ofSetColor(255, 255);
-			ofLine(0,0, 0, height);
-			ofLine(0,0, width, 0);
-			ofLine(width,0, 0, 0);
-			ofLine(0,height, 0, 0);
-			ofLine(0,height,width,height);
-			ofLine(0, 0, width, height);
-			ofLine(width,0,0,height);
-			ofSetColor(255, 255);
-		}
+		if (*bDebug)
+			drawBoundingBox();
 		
 		ofPopMatrix();
 	};
