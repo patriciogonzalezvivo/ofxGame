@@ -18,11 +18,11 @@ public:
 	ofxBoxProxy(string _objectName);
 	~ofxBoxProxy(){ clear(); };
 	void clear(){ box->destroy();};
-	
-	ofxBoxProxy & setWorld(b2World * _b2dworld, float _groundY);
+	ofxBoxProxy & setWorld(b2World * _b2dworld, float _groundY){return setWorld(_b2dworld, _groundY, x, y);};
+	ofxBoxProxy & setWorld(b2World * _b2dworld, float _groundY, int _x, int _y);
 
 	void update(ofxParticleEmitter * _pEmit);
-	void draw();
+	void draw(int _level = -1);
 	
 private:
 	void loadExtraXml(string filePath = "config.xml");

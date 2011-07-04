@@ -76,3 +76,35 @@ void ofxBoxEmitter::loadExtraXml(string filePath){
 	} else
 		cout << " [ FAIL ]" << endl;
 }
+
+void ofxBoxEmitter::loadGroup(const string& path, ofPoint _loc){
+	ifstream	fs( ofToDataPath(path).c_str());
+	
+	string line;
+	int lineCounter = 0;
+	
+	cout << "- Loading box: " << path << endl;
+	
+	while(!(fs >> line).fail()){
+		vector <string> values = ofSplitString(line, ",");
+		
+		string _box	 = values[0];
+		float _radio = ofToFloat(values[1].c_str());
+		float _angle = ofToFloat(values[2].c_str());
+		
+		float propRadio = _radio * scale;
+		
+		ofPoint _pos;
+		_pos.x = propRadio * cos(_angle) + _loc.x;
+		_pos.y = propRadio * sin(_angle) + _loc.y;
+		
+		ofxBox * b = new ofxBox();
+		b->setPhysics(den, bou, fri);
+		b->load(_box).setScale(scale).linkToDebug(bDebug).loadToWorld(b2dworld, _pos,groundY);
+		boxes.push_back(b);
+	}
+	
+	fs.seekg(0,ios::beg);
+	fs.clear();
+	fs.close();
+}

@@ -14,12 +14,12 @@ ofxBoxProxy::ofxBoxProxy(string _objectName){
 	loadExtraXml();
 }
 
-ofxBoxProxy & ofxBoxProxy::setWorld(b2World * _b2dworld, float _groundY){
+ofxBoxProxy & ofxBoxProxy::setWorld(b2World * _b2dworld, float _groundY, int _x, int _y){
 	groundY = _groundY;
 	
 	box = new ofxBox();
 	box->setPhysics(den, bou, fri);
-	box->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(_b2dworld, ofPoint(x,y),groundY);
+	box->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(_b2dworld, ofPoint(_x,_y),groundY);
 	width = box->getWidth()*2;
 	height = box->getHeight()*2;
 	saveXml();
@@ -34,10 +34,10 @@ void ofxBoxProxy::update(ofxParticleEmitter * _pEmit){
 		_pEmit->addParticle(ofPoint(x,y-getScaledHeight()*0.5));
 };
 
-void ofxBoxProxy::draw(){ 
+void ofxBoxProxy::draw(int _level){ 
 	ofSetColor(255, 255);
 	
-	box->draw();
+	box->draw(_level);
 	
 	ofPushMatrix();
 	ofTranslate(x-getScaledWidth()*0.5,y-getScaledHeight()*0.5);

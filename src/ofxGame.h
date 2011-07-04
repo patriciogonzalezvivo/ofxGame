@@ -13,8 +13,8 @@
 #include "ofxBackground.h"
 #include "ofxBanner.h"
 
-#include "ofxBoxEmitter.h"
 #include "ofxBoxProxy.h"
+#include "ofxBoxEmitter.h"
 
 #include "ofxCharacter.h"
 #include "ofxCharProxy.h"

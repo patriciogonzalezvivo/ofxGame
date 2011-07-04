@@ -23,6 +23,8 @@ public:
 	
 	void draw();
 	
+	void loadGroup(const string& path, ofPoint _loc);
+	
 private:
 	void loadExtraXml(string filePath = "config.xml");
 	

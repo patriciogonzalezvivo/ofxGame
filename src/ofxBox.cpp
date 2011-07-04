@@ -21,7 +21,7 @@ ofxBox::ofxBox() {
 
 ofxBox & ofxBox::load(string _objName){ 
 	objDir = _objName; 
-	string _path = objDir+  "/config.box"; 
+	string _path = objDir+ "/config.box"; 
 	loadParts( _path );
 	return * this; 
 }

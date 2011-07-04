@@ -52,7 +52,7 @@ void ofxCharacter::update(ofxParticleEmitter * _clouds){
 		//angle = body->GetAngle();
 		
 		if ((vel.x  > 3.5) && (groundY - pos.y <= height+20)){
-			if ( ofRandom(0, 100) < 5)
+			if ( ofRandom(0, 100) < 30)
 			_clouds->addParticle(	ofVec3f((int)pos.x,
 											pos.y+getHeight()*0.75,
 											0),
@@ -62,7 +62,7 @@ void ofxCharacter::update(ofxParticleEmitter * _clouds){
 		}
 		
 		if ((vel.x < -3.5) && (groundY - pos.y <= height+20)){
-			if ( ofRandom(0, 100) < 5)
+			if ( ofRandom(0, 100) < 30)
 				_clouds->addParticle(	ofVec3f((int)pos.x, 
 												pos.y+getHeight()*0.75, 
 												0),

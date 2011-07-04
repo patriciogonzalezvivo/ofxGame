@@ -15,7 +15,7 @@
 class ofxBox: public ofxBox2dRect {
 public:
 	ofxBox();
-	~ofxBox(){destroy();};
+	~ofxBox(){ destroy(); };
 	
 	ofxBox & load(string _objName);
 	ofxBox & setScale(float _scale);
