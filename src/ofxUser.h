@@ -4,6 +4,8 @@
  *  Created by Patricio González Vivo on 30/06/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
  *
+ *  Kinect User masking GameObject
+ *
  */
 
 #ifndef OFXUSR
@@ -21,7 +23,7 @@ public:
 	void draw(int _x, int _y);
 	
 private:
-	void superFastBlur(unsigned char *pix, int radius); 
+	void superFastBlur(unsigned char *pix, int radius); // Grayscale Blur for tha masking the user
 	
 	ofImage				usersMasked;
 };

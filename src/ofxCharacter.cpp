@@ -1,6 +1,5 @@
 /*
  *  ofxCharacter.cpp
- *  jaboneria
  *
  *  Created by Patricio González Vivo on 04/07/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
@@ -53,21 +52,23 @@ void ofxCharacter::update(ofxParticleEmitter * _clouds){
 		//angle = body->GetAngle();
 		
 		if ((vel.x  > 3.5) && (groundY - pos.y <= height+20)){
+			if ( ofRandom(0, 100) < 5)
 			_clouds->addParticle(	ofVec3f((int)pos.x,
 											pos.y+getHeight()*0.75,
 											0),
-								 ofVec3f(-1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),
-										 ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10),
-										 0));
+									ofVec3f(-1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),
+											ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10),
+											0));
 		}
 		
 		if ((vel.x < -3.5) && (groundY - pos.y <= height+20)){
-			_clouds->addParticle(	ofVec3f((int)pos.x, 
-											pos.y+getHeight()*0.75,
-											0),
-								 ofVec3f(1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),
-										 ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10),
-										 0));
+			if ( ofRandom(0, 100) < 5)
+				_clouds->addParticle(	ofVec3f((int)pos.x, 
+												pos.y+getHeight()*0.75, 
+												0),
+										ofVec3f(1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),
+												ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10),
+												0));
 		}
 		
 		if ( ((int)(getVelocity().x*10)) < 0)
