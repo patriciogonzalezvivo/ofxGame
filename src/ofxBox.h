@@ -26,7 +26,13 @@ public:
 	};
 	
 	~ofxBox(){ destroy(); };
-	ofxBox & load(string _objName){ objDir = _objName; string _path = objDir+  "/config.box"; loadParts( _path ); return * this; };
+	ofxBox & load(string _objName){ 
+		objDir = _objName; 
+		string _path = objDir+  "/config.box"; 
+		loadParts( _path );
+		return * this; 
+	};
+	
 	ofxBox & setScale(float _scale){scale = _scale; width *= scale; height *= scale; return * this; };
 	ofxBox & linkToDebug(bool * _bDebug){ bDebug = _bDebug; return * this;};
 	ofxBox & loadToWorld(b2World * _b2dworld, ofPoint _pos, int _groundY) {
@@ -53,10 +59,10 @@ public:
 			if ((groundY != 0) && (groundY - (pos.y+height*0.5) < 1)){
 				if ((int)vel.x == 0)
 					element[1].draw(element[1].pos.x,groundY-element[1].getHeight()*0.5,ofMap(groundY-element[1].pos.y,0,groundY,1,0));	// draw Shadow on the floor
-				else if ((int)vel.x > 0){
-					element[0].mirror = true;
-					element[0].draw(ofMap(vel.x,1,2,0,1,true));	// draw a fastShadow on the floor
-				} else if ((int)vel.x < 0){
+				else if (vel.x >= 1){
+					element[0].mirror = false;
+					element[0].draw(ofMap(vel.x,1,2,0,-1,true));	// draw a fastShadow on the floor
+				} else if (vel.x <= -1){
 					element[0].mirror = false;
 					element[0].draw(ofMap(vel.x*-1,1,2,0,1,true));
 				}
@@ -65,15 +71,16 @@ public:
 		
 			element[2].draw();	// draw body
 		
-			if (*bDebug){
-				ofSetColor(255,50);
-				ofxBox2dRect::draw();
-				ofSetColor(255,255);
-				ofDrawBitmapString("Vel X: " + ofToString(vel.x), pos.x -30, pos.y-7);
-				ofDrawBitmapString("Vel Y: " + ofToString(vel.y), pos.x -30, pos.y+7);
-			}
 		} else {
 			element[_level].draw();
+		}
+		
+		if (*bDebug){
+			ofSetColor(255,50);
+			ofxBox2dRect::draw();
+			ofSetColor(255,255);
+			ofDrawBitmapString("Vel X: " + ofToString(vel.x), pos.x -30, pos.y-7);
+			ofDrawBitmapString("Vel Y: " + ofToString(vel.y), pos.x -30, pos.y+7);
 		}
 	};
 	

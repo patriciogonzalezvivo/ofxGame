@@ -1,28 +1,27 @@
 /*
- *  ofxEmitter.h
- *  jaboneria
+ *  ofxBoxEmitter.h
  *
  *  Created by Patricio González Vivo on 02/07/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
  *
  */
 
-#ifndef OFXEMITTER
-#define OFXEMITTER
+#ifndef OFXBOXEMITTER
+#define OFXBOXEMITTER
 
-#include "ofxObject.h"
+#include "ofxGameObj.h"
 #include "ofxBox.h"
 
-class ofxEmitter : public ofxGameObj {
+class ofxBoxEmitter : public ofxGameObj {
 public:
-	ofxEmitter(string _objectName){
+	ofxBoxEmitter(string _objectName){
 		objectName = _objectName;//"emitter"; 
 		initForce.set(0,0);
 		loadXml();
 		loadExtraXml();
 	}
 	
-	ofxEmitter & setWorld(b2World * _b2dworld, float _groundY){
+	ofxBoxEmitter & setWorld(b2World * _b2dworld, float _groundY){
 		b2dworld = _b2dworld;
 		groundY = _groundY;
 		return * this;

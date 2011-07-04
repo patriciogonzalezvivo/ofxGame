@@ -9,7 +9,7 @@
 #ifndef OFXUSR
 #define OFXUSR
 
-#include "ofxObject.h"
+#include "ofxGameObj.h"
 
 class ofxUser : public ofxGameObj {
 public:
@@ -44,7 +44,7 @@ public:
 	void draw(){ draw(x,y); };
 	void draw(int _x, int _y){
 		ofPushMatrix();
-		ofTranslate(_x-width*0.5,_y-height*0.5);
+		ofTranslate(_x-getScaledWidth()*0.5,_y-getScaledHeight()*0.5);
 		ofScale(scale, scale);
 		
 		ofSetColor(255, 255);

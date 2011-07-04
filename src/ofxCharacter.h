@@ -13,7 +13,7 @@
 #include "ofxBox2d.h"
 
 #include "ofxElement.h"
-#include "ofxParticle.h"
+#include "ofxParticleEmitter.h"
 
 class ofxCharacter : public ofxBox2dRect{	
 public:
@@ -32,13 +32,12 @@ public:
 	ofxCharacter &	load(string _characterName){
 		charDir = _characterName;
 		string _path = charDir+ "/config.character";
-		loadParts( _path );	
-		cloud.loadImage("cloud.png");
+		loadParts( _path );
+		setPhysics(0.5, 0.1, 0.1);
 		return * this;
 	};
 	
 	ofxCharacter &	loadToWorld(b2World * _b2dworld, ofPoint _pos, int _groundY = 0){
-		setPhysics(0.5, 0.1, 0.1);
 		setup(_b2dworld,_pos.x,_pos.y,width*scale,height*scale);	
 		groundY = _groundY;
 		worldLoaded = true;
@@ -69,48 +68,36 @@ public:
 	ofxCharacter &	setLeftArmAngle(float _angle){bPart[5].north = _angle; return * this;}
 	ofxCharacter &	setOrientation(string _orientation){if (_orientation != orientation) orientation = _orientation; return * this;};
 	
-	void	update(){
+	void update(ofxParticleEmitter * _clouds){
 		if (worldLoaded){
 			pos = getPosition();
 			vel = getVelocity();
 			//angle = body->GetAngle();
 			
-			if ((vel.x  > 3) && (groundY - pos.y <= height+20)){
-				ofxParticle p;
-				p.loc = ofVec3f((int)pos.x , groundY);
-				p.vel = ofVec3f(-1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10));
-				p.setImage(&cloud);
-				p.setLife(60);
-				p.scale = ofRandom(1);
-				particles.push_back(p);
+			if ((vel.x  > 3.5) && (groundY - pos.y <= height+20)){
+				_clouds->addParticle(	ofVec3f((int)pos.x,
+												pos.y+getHeight()*0.75,
+												0),
+										ofVec3f(-1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),
+												ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10),
+												0));
 			}
 			
-			if ((vel.x < -3) && (groundY - pos.y <= height+20)){
-				ofxParticle p;
-				p.loc = ofVec3f((int)pos.x , groundY);
-				p.vel = ofVec3f(1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10));
-				p.setImage(&cloud);
-				p.setLife(60);
-				p.scale = ofRandom(1);
-				particles.push_back(p);
+			if ((vel.x < -3.5) && (groundY - pos.y <= height+20)){
+				_clouds->addParticle(	ofVec3f((int)pos.x, 
+												pos.y+getHeight()*0.75,
+												0),
+										ofVec3f(1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),
+												ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10),
+												0));
 			}
 			
-			if ( ((int)getVelocity().x) < 0)
+			if ( ((int)(getVelocity().x*10)) < 0)
 				setOrientation("RIGHT");
-			else 
+			else if ( (int)(getVelocity().x*10) > 0)
 				setOrientation("LEFT");
 		}
-		
-		for(int i = 0; i < particles.size(); i++){
-			particles[i].update();
-			particles[i].life--;
-		}
-		
-		for(int i = 0; i < particles.size(); i++)
-			if ( particles[i].life <= 0 )
-				particles.erase(particles.begin()+i);
-		
-	};
+	}
 	
 	void draw(bool _bDebug=false){
 		/* if ( (int) vel.x == 0 ){
@@ -163,9 +150,6 @@ public:
 			bPart[1].mirror = true;
 			bPart[1].draw();	// Arm L
 		}
-		// Efectos
-		for(int i = 0; i < particles.size(); i++)
-			particles[i].draw();
 		
 		if (_bDebug){
 			ofSetColor(255,50);

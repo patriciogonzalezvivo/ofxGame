@@ -1,5 +1,5 @@
 /*
- *  ofxObject.h
+ *  ofxGameObj.h
  *
  *  Created by Patricio González Vivo on 30/06/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.

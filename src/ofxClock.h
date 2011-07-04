@@ -9,7 +9,7 @@
 #ifndef OFXCLOCK
 #define OFXCLOCK
 
-#include "ofxObject.h"
+#include "ofxGameObj.h"
 
 class ofxClock : public ofxGameObj {
 public:
@@ -43,7 +43,7 @@ public:
 			height	= font.stringHeight(time);
 			
 			ofPushMatrix();
-			ofTranslate(_x -width*0.5,_y -height*0.5);
+			ofTranslate(_x-getScaledWidth()*0.5,_y-getScaledHeight()*0.5);
 			ofScale(scale, scale);
 			font.drawString(time,0,0);
 			

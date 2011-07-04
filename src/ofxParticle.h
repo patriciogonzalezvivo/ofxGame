@@ -123,13 +123,13 @@ public:
 		applyForce(direction * force); 
 	};
 	
-	void	update(){
+	void update(){
 		vel += acc;
 		loc += vel;
 		acc *= 0;
 	};
 	
-	void	update(float _speedLimit){
+	void update(float _speedLimit){
 		vel += acc;
 		vel.limit(_speedLimit);
 		loc += vel;
@@ -139,7 +139,8 @@ public:
 	void	draw(){
 		ofPushMatrix();
 		ofTranslate(loc);
-		ofScale(scale, scale, scale);
+		ofScale(scale, scale, 1);
+		//ofScale(scale*ofMap(life, 0,initLife, 1.5, 0.5), scale*ofMap(life, 0,initLife, 1.5, 0.5), scale);
 		ofSetColor(color,255*ofMap(life, 0,initLife, 0, 1));
 		image->draw(-image->width*0.5,-image->height*0.5,image->width,image->height);
 		ofPopMatrix();

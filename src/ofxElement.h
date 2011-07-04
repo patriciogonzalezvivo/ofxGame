@@ -55,9 +55,8 @@ public:
 	}; 
 	
 	void	draw(){ fromPolarToCart(); draw(pos.x, pos.y,1);};
-	void	draw(float _scale){  draw(pos.x, pos.y,_scale);};
+	void	draw(float _scale){ fromPolarToCart(); draw(pos.x, pos.y,_scale);};
 	void	draw(int _x, int _y, float _scale){
-		fromPolarToCart();
 		ofPushMatrix();
 		ofTranslate(_x,_y);
 		ofScale(_scale, _scale);

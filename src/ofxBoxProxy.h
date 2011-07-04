@@ -5,12 +5,13 @@
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
  *
  */
-/*
+
 #ifndef OFXBOXPROXY
 #define OFXBOXPROXY
 
-#include "ofxObject.h"
+#include "ofxGameObj.h"
 #include "ofxBox.h"
+#include "ofxParticleEmitter.h"
 
 class ofxBoxProxy : public ofxGameObj {
 public:
@@ -19,15 +20,29 @@ public:
 		loadXml();
 		loadExtraXml();
 	}
+	~ofxBoxProxy(){
+		clear();
+	}
 	
 	ofxBoxProxy & setWorld(b2World * _b2dworld, float _groundY){
 		groundY = _groundY;
 		
 		box = new ofxBox();
 		box->setPhysics(den, bou, fri);
-		box->load(file).linkToDebug(bDebug).setScale(scale).loadToWorld(_b2dworld, ofPoint(x,y),groundY);
+		box->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(_b2dworld, ofPoint(x,y),groundY);
+		width = box->getWidth()*2;
+		height = box->getHeight()*2;
+		saveXml();
 		return * this;
 	}
+	
+	void update(ofxParticleEmitter * _pEmit){
+		x = box->getPosition().x;
+		y = box->getPosition().y;
+		
+		if ((ofRandom(0, 50) < 2) ) 
+			_pEmit->addParticle(ofPoint(x,y-getScaledHeight()*0.5));
+	};
 	
 	void clear(){
 		box->destroy();
@@ -39,7 +54,7 @@ public:
 		box->draw();
 		
 		ofPushMatrix();
-		ofTranslate(x-width*0.5,y-height*0.5);
+		ofTranslate(x-getScaledWidth()*0.5,y-getScaledHeight()*0.5);
 		ofScale(scale, scale);
 		
 		if (*bDebug)
@@ -64,9 +79,7 @@ private:
 			cout << " [ FAIL ]" << endl;
 	};
 	
-	float				den, bou, fri;
-	ofxBox*				box;
-	float				groundY;
-	
+	ofxBox*				box;			
+	float				den, bou, fri,groundY;				
 };
-#endif*/
+#endif
