@@ -31,7 +31,7 @@ public:
 	ofxCharacter &	setLeftLegAngle(float _angle){bPart[3].north = _angle; return * this;}
 	ofxCharacter &	setRightArmAngle(float _angle){bPart[1].north = _angle; return * this;}
 	ofxCharacter &	setLeftArmAngle(float _angle){bPart[5].north = _angle; return * this;}
-	ofxCharacter &	setOrientation(string _orientation){if (_orientation != orientation) orientation = _orientation; return * this;};
+	ofxCharacter &	setOrientation(string _orientation);
 	
 	int	getWidth(){return width;};
 	int	getHeight(){return height;};

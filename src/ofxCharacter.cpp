@@ -45,6 +45,17 @@ ofxCharacter & ofxCharacter::reset(){
 	destroy();
 }
 
+ofxCharacter & ofxCharacter::setOrientation(string _orientation){
+	if (_orientation != orientation) {
+		orientation = _orientation;
+		if (worldLoaded){
+			vel = getVelocity();
+			addForce(ofVec2f(vel.x*-1,0), 15);
+		}
+	}
+	return * this;
+}
+
 void ofxCharacter::update(ofxParticleEmitter * _clouds){
 	if (worldLoaded){
 		pos = getPosition();
