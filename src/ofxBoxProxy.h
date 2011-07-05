@@ -16,18 +16,20 @@
 class ofxBoxProxy : public ofxGameObj {
 public:
 	ofxBoxProxy(string _objectName);
-	~ofxBoxProxy(){ clear(); };
-	void clear(){ box->destroy();};
+	~ofxBoxProxy(){ box->destroy(); };
+	
+	ofxBoxProxy & init(int _x, int _y);
+	ofxBoxProxy & restart();
 	ofxBoxProxy & setWorld(b2World * _b2dworld, float _groundY){return setWorld(_b2dworld, _groundY, x, y);};
 	ofxBoxProxy & setWorld(b2World * _b2dworld, float _groundY, int _x, int _y);
-
+	
 	void update(ofxParticleEmitter * _pEmit);
 	void draw(int _level = -1);
 	
 private:
-	void loadExtraXml(string filePath = "config.xml");
-	
-	ofxBox*				box;			
-	float				den, bou, fri,groundY;				
+	void		loadExtraXml(string filePath = "config.xml");
+	ofxBox*		box;
+	b2World *	b2dworld;
+	float		den, bou, fri,groundY;				
 };
 #endif

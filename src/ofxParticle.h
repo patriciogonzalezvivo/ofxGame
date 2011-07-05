@@ -12,26 +12,33 @@
 
 class ofxParticle {
 public:
-	ofVec3f	loc,vel,acc;
-	ofVec3f	localOffset;
-	ofVec3f bornVel;
+	ofVec2f	loc,vel,acc;
+	ofVec2f	localOffset;
+	ofVec2f bornVel;
 	
 	ofColor color;
 	float	scale;
 	
+	float	scaleFactor;
+	int		alpha;
+	
 	bool	bImage;
 	
 	ofxParticle(){
-		loc.set(ofRandom(1.0f),ofRandom(1.0f),0);
+		loc.set(ofRandom(1.0f),ofRandom(1.0f));
 		//loc *= ofRandom(5);
 		
-		vel.set(0,0,0);
-		acc.set(0,0,0);
+		vel.set(0,0);
+		acc.set(0,0);
 		
-		localOffset.set(ofRandom(1.0f),ofRandom(1.0f),ofRandom(1.0f));
+		localOffset.set(ofRandom(1.0f),ofRandom(1.0f));
 		
 		color.set(255);
 		scale = 1;
+		
+		alpha =255;
+		scaleFactor = 1;
+		
 		bImage = false;
 	};
 	
@@ -43,31 +50,12 @@ public:
 	ofImage * image;
 	void	setImage(ofImage * _image){image = _image; bImage = true;};
 	
-	void	applyForce(ofVec3f _force){acc += _force;};
+	void	applyForce(ofVec2f _force){acc += _force;};
 	
 	void	applyViscosityForce(float _viscosity){ acc += vel.scale(_viscosity); };
 	
-	void	applyFlockingForce(ofVec3f * _offset, float _neighbordhood, float _independece){
-		acc += ofVec3f(
-					   ofNoise(
-							   loc.x / _neighbordhood + _offset->x + localOffset.x * _independece,
-							   loc.y / _neighbordhood,
-							   loc.z / _neighbordhood)
-					   - .5,
-					   ofNoise(
-							   loc.x / _neighbordhood,
-							   loc.y / _neighbordhood + _offset->y  + localOffset.y * _independece,
-							   loc.z / _neighbordhood)
-					   - .5,
-					   ofNoise(
-							   loc.x / _neighbordhood,
-							   loc.y / _neighbordhood,
-							   loc.z / _neighbordhood + _offset->z + localOffset.z * _independece)
-					   - .5);
-	};
-	
-	ofVec3f	steer(ofVec3f target, bool slowdown){
-		ofVec3f steer;
+	ofVec2f	steer(ofVec2f target, bool slowdown){
+		ofVec2f steer;
 		
 		if (slowdown){
 			ofVec3f desired = target - loc;  // A vector pointing from the location to the target
@@ -85,7 +73,7 @@ public:
 				steer = desired - vel; //PVector.sub(desired,vel);
 				//steer.limit(0.9);  // Limit to maximum steering force
 			} else
-				steer = ofVec3f(0,0,0);
+				steer = ofVec3f(0,0);
 			
 		} else {
 			steer = target -loc;
@@ -95,8 +83,8 @@ public:
 		return steer;
 	};
 	
-	ofVec3f	avoid(ofVec3f target, bool slowdown){
-		ofVec3f steer = loc - target; 
+	ofVec2f	avoid(ofVec2f target, bool slowdown){
+		ofVec2f steer = loc - target; 
 		
 		float d = steer.length();
 		
@@ -106,11 +94,10 @@ public:
 		return steer;
 	};
 	
-	void	applyArriveForce(ofVec3f target) { acc += steer(target,true); };
-	void	applySeekForce(ofVec3f target) { acc += steer(target,false); };
-	
-	void	applyGravityForce(ofVec3f _center){
-		ofVec3f direction = _center - loc;	// Primero calcula la dirección al centro del espacio que lo rije
+	void	applyArriveForce(ofVec2f target) { acc += steer(target,true); };
+	void	applySeekForce(ofVec2f target) { acc += steer(target,false); };
+	void	applyGravityForce(ofVec2f _center){
+		ofVec2f direction = _center - loc;	// Primero calcula la dirección al centro del espacio que lo rije
 		
 		float d = direction.length();				// De allí calcula la fuerza con que lo atrae
 		//d = constrain(d,5.0f,25.0f);
@@ -122,6 +109,34 @@ public:
 		direction.normalize();						// Vuelve la dirección a un parámetro entre 0 y 1;
 		applyForce(direction * force); 
 	};
+	
+	void	applyNoiseForce(float _angle, float _turbulence){
+		/*
+		float nX = mLoc.x * 0.005f;
+		float nY = mLoc.y * 0.005f;
+		float nZ = app::getElapsedSeconds() * 0.1f;
+		float noise = perlin.fBm( nX, nY, nZ );*/
+
+		//float angle = ofSignedNoise(ofGetFrameNum() * 0.005f) * _angle;
+		float angle = ofSignedNoise(loc.x * 0.005f, loc.y *0.005f) * _angle;
+		ofVec2f noiseVector( cos( angle ), sin( angle ) );
+		acc += noiseVector * _turbulence * (1.0 - ofNormalize(life, 0, initLife));
+	}
+	
+	void applyAlpha(bool _fadeout = true){
+		if (_fadeout)
+			alpha = 255*(1.0f-ofNormalize(life, 0,initLife));
+		else 
+			alpha = 255* ofNormalize(life, 0,initLife);
+	}
+	
+	void applyScale(bool _melt = true){
+		if (_melt)
+			scaleFactor = 1.0f-ofNormalize(life, 0,initLife);
+		else 
+			scaleFactor = ofNormalize(life, 0,initLife);
+	}
+	
 	
 	void update(){
 		vel += acc;
@@ -139,12 +154,13 @@ public:
 	void	draw(){
 		ofPushMatrix();
 		ofTranslate(loc);
-		ofScale(scale, scale, 1);
+		ofScale(scale*scaleFactor, scale*scaleFactor, 1);
 		//ofScale(scale*ofMap(life, 0,initLife, 1.5, 0.5), scale*ofMap(life, 0,initLife, 1.5, 0.5), scale);
-		ofSetColor(color,255*ofMap(life, 0,initLife, 0, 1));
+		ofSetColor(color,alpha);
 		image->draw(-image->width*0.5,-image->height*0.5,image->width,image->height);
 		ofPopMatrix();
 	};
+	
 	void	draw(float _scale){
 		if (bImage){
 			ofPushMatrix();

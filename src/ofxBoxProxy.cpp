@@ -16,15 +16,28 @@ ofxBoxProxy::ofxBoxProxy(string _objectName){
 
 ofxBoxProxy & ofxBoxProxy::setWorld(b2World * _b2dworld, float _groundY, int _x, int _y){
 	groundY = _groundY;
-	
-	box = new ofxBox();
-	box->setPhysics(den, bou, fri);
-	box->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(_b2dworld, ofPoint(_x,_y),groundY);
+	b2dworld = _b2dworld;
+	init(_x,_y);
 	width = box->getWidth()*2;
 	height = box->getHeight()*2;
 	saveXml();
 	return * this;
 }
+
+ofxBoxProxy & ofxBoxProxy::init(int _x, int _y){
+	box = new ofxBox();
+	box->setPhysics(den, bou, fri);
+	box->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(b2dworld, ofPoint(_x,_y),groundY);
+	return * this;
+}
+
+ofxBoxProxy & ofxBoxProxy::restart(){
+	box->destroy();
+	loadXml();
+	init(x,y);
+	return * this;
+}
+
 
 void ofxBoxProxy::update(ofxParticleEmitter * _pEmit){
 	x = box->getPosition().x;

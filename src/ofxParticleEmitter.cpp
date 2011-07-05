@@ -10,6 +10,8 @@
 
 ofxParticleEmitter::ofxParticleEmitter(string _objectName){
 	objectName = _objectName;
+	fade = -1;
+	melt = -1;
 	loadXml();
 	loadExtraXml();
 	pImage.loadImage(file);
@@ -17,8 +19,8 @@ ofxParticleEmitter::ofxParticleEmitter(string _objectName){
 
 void ofxParticleEmitter::update(){
 	for(int i = 0; i < particles.size(); i++){
-		if (flocking)
-			particles[i].applyFlockingForce(&globalOffset,nei,ind);
+		if (noise)
+			particles[i].applyNoiseForce(noiseAngle,noiseTurbulence);
 		
 		if (den != 0)
 			particles[i].applyViscosityForce(den);
@@ -28,14 +30,18 @@ void ofxParticleEmitter::update(){
 		else
 			particles[i].update();
 		
+		if (fade != -1)
+			particles[i].applyAlpha((fade==0)?false:true);
+		
+		if (melt != -1)
+			particles[i].applyScale((melt==0)?false:true);
+		
 		particles[i].life--;
 	}
 	
 	for(int i = 0; i < particles.size(); i++)
 		if ( particles[i].life <= 0 )
 			particles.erase(particles.begin()+i);
-	
-	globalOffset += ofVec3f(tur/nei,tur/nei,tur/nei);
 }
 
 void ofxParticleEmitter::draw(){ 
@@ -55,21 +61,18 @@ void ofxParticleEmitter::draw(){
 
 void ofxParticleEmitter::addParticle(ofPoint _loc){
 	if ((randomMax != 1) || (randomMin != 1)){
-		addParticle(ofVec3f(ofRandom(_loc.x-getScaledWidth()*0.5 ,_loc.x+getScaledWidth()*0.5),
-							ofRandom(_loc.y-getScaledHeight()*0.5,_loc.y+getScaledHeight()*0.5),
-							0),
-					ofVec3f(initForce.x*ofNoise(ofGetFrameNum()/25)*ofRandom(randomMin,randomMax),
-							initForce.y*ofNoise(ofGetFrameNum()/25)*ofRandom(randomMin,randomMax),
-							0));
+		addParticle(ofVec2f(ofRandom(_loc.x-getScaledWidth()*0.5 ,_loc.x+getScaledWidth()*0.5),
+							ofRandom(_loc.y-getScaledHeight()*0.5,_loc.y+getScaledHeight()*0.5)),
+					ofVec2f(initForce.x*ofNoise(ofGetFrameNum()/25)*ofRandom(randomMin,randomMax),
+							initForce.y*ofNoise(ofGetFrameNum()/25)*ofRandom(randomMin,randomMax)));
 	} else {
-		addParticle(ofVec3f(ofRandom(_loc.x-getScaledWidth()*0.5 ,_loc.x+getScaledWidth()*0.5),
-							ofRandom(_loc.y-getScaledHeight()*0.5 ,_loc.y+getScaledHeight()*0.5),
-							0),
-					ofVec3f(initForce.x,initForce.y,0));
+		addParticle(ofVec2f(ofRandom(_loc.x-getScaledWidth()*0.5 ,_loc.x+getScaledWidth()*0.5),
+							ofRandom(_loc.y-getScaledHeight()*0.5 ,_loc.y+getScaledHeight()*0.5)),
+					ofVec2f(initForce.x,initForce.y));
 	}
 }
 
-void ofxParticleEmitter::addParticle(ofVec3f _loc, ofVec3f _vel, int _life, float _scale){
+void ofxParticleEmitter::addParticle(ofVec2f _loc, ofVec2f _vel, int _life, float _scale){
 	ofxParticle p;
 	p.loc = _loc;
 	p.vel = _vel;
@@ -94,12 +97,13 @@ void ofxParticleEmitter::loadExtraXml(string filePath){
 		den			= XML.getValue(objectName+":density",0);
 		spe			= XML.getValue(objectName+":speedLimit",0);
 		
-		flocking	= XML.tagExists(objectName+":flocking");
+		noise	= XML.tagExists(objectName+":noise");
+		fade	= XML.getValue(objectName+":fade",-1);
+		melt	= XML.getValue(objectName+":melt",-1);
 		
-		if (flocking){
-			nei = XML.getValue(objectName+":flocking:neigbordhood",12);
-			ind = XML.getValue(objectName+":flocking:independence",0.01);
-			tur	= XML.getValue(objectName+":flocking:turbulence",0.09); 
+		if (noise){
+			noiseAngle= XML.getValue(objectName+":noise:angle",12);
+			noiseTurbulence = XML.getValue(objectName+":noise:turbulence",0.01);
 		}
 	} else
 		cout << " [ FAIL ]" << endl;

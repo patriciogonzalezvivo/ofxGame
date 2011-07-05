@@ -22,6 +22,7 @@
 #include "ofxClock.h"
 
 #include "ofxParticleEmitter.h"
+#include "ofxPlace.h"
 
 #include "ofxUser.h"
 

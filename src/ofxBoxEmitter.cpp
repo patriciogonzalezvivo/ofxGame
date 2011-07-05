@@ -78,7 +78,7 @@ void ofxBoxEmitter::loadExtraXml(string filePath){
 }
 
 void ofxBoxEmitter::loadGroup(const string& path, ofPoint _loc){
-	ifstream	fs( ofToDataPath(path).c_str());
+	ifstream	fs( ofToDataPath(path+".boxes").c_str());
 	
 	string line;
 	int lineCounter = 0;

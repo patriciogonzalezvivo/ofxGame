@@ -24,20 +24,19 @@ public:
 	
 	void addParticle(){ addParticle(ofPoint(x,y));};
 	void addParticle(ofPoint _loc);
-	void addParticle(ofVec3f _loc, ofVec3f _vel){ addParticle(_loc,_vel,ofRandom(life),ofRandom(scale));};
-	void addParticle(ofVec3f _loc, ofVec3f _vel, int _life, float _scale);
+	void addParticle(ofVec2f _loc, ofVec2f _vel){ addParticle(_loc,_vel,ofRandom(life),ofRandom(scale));};
+	void addParticle(ofVec2f _loc, ofVec2f _vel, int _life, float _scale);
 	
 private:
 	void loadExtraXml(string filePath = "config.xml" );
 	
 	vector<ofxParticle>	particles;
 	
-	ofVec3f globalOffset;
 	ofVec2f	initForce;
 	ofImage	pImage;
 	
-	int		life;
-	float	randomMax,randomMin,nei,ind,tur,den,spe;
-	bool	flocking, density;
+	int		life,fade, melt; 
+	float	randomMax,randomMin,noiseAngle,noiseTurbulence,den,spe;
+	bool	noise, density;
 };
 #endif

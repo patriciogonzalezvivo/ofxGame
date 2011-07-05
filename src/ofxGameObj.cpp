@@ -33,10 +33,10 @@ void ofxGameObj::drawBoundingBox(){
 
 bool ofxGameObj::isOver(float _x, float _y){
 	bool result = false;
-	if ((_x > x - width*0.5) &&
-		(_x < x + width*0.5) &&
-		(_y > y - height*0.5) &&
-		(_y < y + height*0.5))
+	if ((_x > x - getScaledWidth()*0.5) &&
+		(_x < x + getScaledWidth()*0.5) &&
+		(_y > y - getScaledHeight()*0.5) &&
+		(_y < y + getScaledHeight()*0.5))
 		result = true;
 	return result;
 }
