@@ -42,10 +42,10 @@ void ofxCharacterObj::draw(int _x, int _y){
 
 void ofxCharacterObj::loadExtraXml(string filePath){
 	ofxXmlSettings XML;
-	cout << "Reading " << objectName << " configuration file " << filePath;
+	//cout << "Reading " << objectName << " configuration file " << filePath;
 	
 	if (XML.loadFile(filePath)){
-		cout << " [ OK ]" << endl;
+		//cout << " [ OK ]" << endl;
 		
 		ori = XML.getValue(objectName+":orientation","LEFT");
 		den = XML.getValue(objectName+":density",0.5);

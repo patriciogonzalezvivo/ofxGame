@@ -33,7 +33,7 @@ public:
 		width = iPart.getWidth();
 		height = iPart.getHeight();
 		imageCenter = ofVec2f(_iX,_iY);
-		cout << "-- Loading Element " << _imagePath << " w:" << width << " h:" << height << endl;
+		//cout << "-- Loading Element " << _imagePath << " w:" << width << " h:" << height << endl;
 	};
 	
 	ofxElement&	setScale(float * _scale){scale = _scale; return * this;};
@@ -95,7 +95,7 @@ public:
 	float	north;
 	bool	mirror;
 	
-private:
+protected:
 	ofImage iPart;
 	string	iPath;
 	

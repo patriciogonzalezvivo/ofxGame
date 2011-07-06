@@ -18,8 +18,9 @@ ofxGameEng::ofxGameEng(){
 
 ofxGameEng& ofxGameEng::loadXml(string filePath = "config.xml"){
 	ofxXmlSettings XML;
+	//cout << "Reading game engine configuration file " << filePath;
 	if (XML.loadFile(filePath)){
-		cout << " [ OK ]" << endl;
+		//cout << " [ OK ]" << endl;
 		
 		init();
 		

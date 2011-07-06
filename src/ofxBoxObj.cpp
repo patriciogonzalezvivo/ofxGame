@@ -57,10 +57,10 @@ void ofxBoxObj::draw(int _level){
 
 void ofxBoxObj::loadExtraXml(string filePath){
 	ofxXmlSettings XML;
-	cout << "Reading " << objectName << " configuration file " << filePath;
+	//cout << "Reading " << objectName << " configuration file " << filePath;
 	
 	if (XML.loadFile(filePath)){
-		cout << " [ OK ]" << endl;
+		//cout << " [ OK ]" << endl;
 		
 		den = XML.getValue(objectName+":density",0.5);
 		bou = XML.getValue(objectName+":bounce",0.5);

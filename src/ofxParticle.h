@@ -104,7 +104,7 @@ public:
 	
 	int life;
 	
-private:
+protected:
 	ofVec2f	steer(ofVec2f target, bool slowdown){
 		ofVec2f steer;
 		

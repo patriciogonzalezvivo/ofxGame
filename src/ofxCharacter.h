@@ -47,7 +47,7 @@ public:
 	string			orientation;
 	ofVec2f			pos,vel;
 	
-private:
+protected:
 	void loadParts(const string& path);
 
 	vector<ofxElement>	bPart;

@@ -28,7 +28,7 @@ public:
 	void update(ofxParticleEmitter * _pEmit);
 	void draw(int _level = -1);
 	
-private:
+protected:
 	void		loadExtraXml(string filePath = "config.xml");
 	ofxGameEng* gameEng;
 	ofxBox*		box;

@@ -27,7 +27,7 @@ public:
 	void addParticle(ofVec2f _loc, ofVec2f _vel){ addParticle(_loc,_vel,ofRandom(life),ofRandom(scale));};
 	void addParticle(ofVec2f _loc, ofVec2f _vel, int _life, float _scale);
 	
-private:
+protected:
 	void loadExtraXml(string filePath = "config.xml" );
 	
 	vector<ofxParticle>	particles;

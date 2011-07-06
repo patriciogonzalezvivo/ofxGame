@@ -165,7 +165,7 @@ void ofxCharacter::loadParts(const string& path){
 	string line;
 	int lineCounter = 0;
 	
-	cout << "- Loading box: " << path << endl;
+	//cout << "- Loading box: " << path << endl;
 	
 	while(!(fs >> line).fail()){
 		vector <string> values = ofSplitString(line, ",");

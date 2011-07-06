@@ -54,7 +54,7 @@ public:
 		}
 	};
 	
-private:
+protected:
 	string nf(string format, int number) {
 		char buffer[100];
 		sprintf(buffer, format.c_str(), number);

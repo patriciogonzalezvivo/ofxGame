@@ -28,10 +28,10 @@ void ofxBoxEmitter::draw(){
 		boxes[i]->draw();
 	
 	for(int i=0; i < boxes.size(); i++)
-		boxes[i]->draw(4);
+		boxes[i]->draw(3);
 	
 	for(int i=0; i < boxes.size(); i++)
-		boxes[i]->draw(3);
+		boxes[i]->draw(4);
 	
 	for(int i=0; i < boxes.size(); i++)
 		boxes[i]->draw(5);
@@ -56,10 +56,10 @@ void ofxBoxEmitter::addBox(){
 
 void ofxBoxEmitter::loadExtraXml(string filePath){
 	ofxXmlSettings XML;
-	cout << "Reading " << objectName << " configuration file looking for extra parametters " << filePath;
+	//cout << "Reading " << objectName << " configuration file looking for extra parametters " << filePath;
 	
 	if (XML.loadFile(filePath)){
-		cout << " [ OK ]" << endl;
+		//cout << " [ OK ]" << endl;
 		
 		initForce.x = XML.getValue(objectName+":xForce",0);
 		initForce.y = XML.getValue(objectName+":yForce",0);
@@ -78,7 +78,7 @@ void ofxBoxEmitter::loadGroup(const string& path, ofPoint _loc){
 	string line;
 	int lineCounter = 0;
 	
-	cout << "- Loading box: " << path << endl;
+	//cout << "- Loading box: " << path << endl;
 	
 	while(!(fs >> line).fail()){
 		vector <string> values = ofSplitString(line, ",");

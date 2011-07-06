@@ -38,7 +38,7 @@ public:
 		ofPopMatrix();
 	};
 	
-private:
+protected:
 	ofImage	image;
 	
 };

@@ -83,10 +83,10 @@ void ofxParticleEmitter::addParticle(ofVec2f _loc, ofVec2f _vel, int _life, floa
 
 void ofxParticleEmitter::loadExtraXml(string filePath){
 	ofxXmlSettings XML;
-	cout << "Reading " << objectName << " configuration file looking for extra parametters " << filePath;
+	//cout << "Reading " << objectName << " configuration file looking for extra parametters " << filePath;
 	
 	if (XML.loadFile(filePath)){
-		cout << " [ OK ]" << endl;
+		//cout << " [ OK ]" << endl;
 		initForce.x = XML.getValue(objectName+":xForce",0);
 		initForce.y = XML.getValue(objectName+":yForce",0);
 		randomMax	= XML.getValue(objectName+":randomMax",1);

@@ -28,7 +28,7 @@ public:
 	
 	ofxCharacter * getCharacter(){return & character;};
 	
-private:
+protected:
 	void loadExtraXml(string filePath = "config.xml" );
 	
 	ofxCharacter	character;

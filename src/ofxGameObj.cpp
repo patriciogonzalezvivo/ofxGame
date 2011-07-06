@@ -44,10 +44,10 @@ bool ofxGameObj::isOver(float _x, float _y){
 	
 void ofxGameObj::loadXml(string filePath){
 	ofxXmlSettings XML;
-	cout << "Reading " << objectName << " configuration file " << filePath;
+	//cout << "Reading " << objectName << " configuration file " << filePath;
 	
 	if (XML.loadFile(filePath)){
-		cout << " [ OK ]" << endl;
+		//cout << " [ OK ]" << endl;
 		
 		x = XML.getValue(objectName+":x",0);
 		y = XML.getValue(objectName+":y",0);
@@ -62,10 +62,10 @@ void ofxGameObj::loadXml(string filePath){
 
 void ofxGameObj::saveXml(string filePath){
 	ofxXmlSettings XML;
-	cout << "Saving " << objectName << " configuration file " << filePath;
+	//cout << "Saving " << objectName << " configuration file " << filePath;
 	
 	if (XML.loadFile(filePath)){
-		cout << " [ OK ]" << endl;
+		//cout << " [ OK ]" << endl;
 		XML.setValue(objectName+":x",x);
 		XML.setValue(objectName+":y",y);
 		XML.setValue(objectName+":scale",scale);

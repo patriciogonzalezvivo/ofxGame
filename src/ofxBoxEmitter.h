@@ -28,7 +28,7 @@ public:
 	
 	void loadGroup(const string& path, ofPoint _loc);
 	
-private:
+protected:
 	void loadExtraXml(string filePath = "config.xml");
 	ofxGameEng*		gameEng;
 	vector<ofxBox*>	boxes;

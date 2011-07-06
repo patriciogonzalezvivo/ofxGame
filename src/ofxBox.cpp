@@ -40,7 +40,7 @@ ofxBox & ofxBox::linkToDebug(bool * _bDebug){
 
 ofxBox & ofxBox::loadToWorld(ofxGameEng * _gameEng, ofPoint _pos) {
 	groundY = _gameEng->getGround().y;
-	cout << "- Inserting object to the world width" << width << "x" << height << " at " << pos.x << "x" << pos.y << endl;
+	//cout << "- Inserting object to the world width" << width << "x" << height << " at " << pos.x << "x" << pos.y << endl;
 	setup(_gameEng->getWorld(),_pos.x,_pos.y,width*0.5,height*0.5);
 	pos = getPosition();
 	return * this;
@@ -103,7 +103,7 @@ void ofxBox::loadParts(const string& path){
 	
 	string line;
 	int lineCounter = 0;
-	cout << "- Loading box: " << path << endl;
+	//cout << "- Loading box: " << path << endl;
 	while(!(fs >> line).fail()){
 		vector <string> values = ofSplitString(line, ",");
 		
@@ -120,7 +120,7 @@ void ofxBox::loadParts(const string& path){
 		if (_pathImage == (objDir + "/core.png")){
 			width = p.getWidth() * scale;
 			height = p.getHeight() * scale;
-			cout << "--- Core Structure Found width " << width << "x" << height << endl;
+			//cout << "--- Core Structure Found width " << width << "x" << height << endl;
 		}
 		
 		p.setScale(&scale);

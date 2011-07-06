@@ -28,7 +28,7 @@ public:
 	
 	ofVec2f		pos,vel;
 	
-private:
+protected:
 	void loadParts(const string& path);
 	
 	vector<ofxElement> element;
