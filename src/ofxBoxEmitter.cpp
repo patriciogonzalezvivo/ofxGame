@@ -11,14 +11,9 @@
 ofxBoxEmitter::ofxBoxEmitter(string _objectName){
 	objectName = _objectName;//"emitter"; 
 	initForce.set(0,0);
+	objColor.setHex(0xffff33);
 	loadXml();
 	loadExtraXml();
-}
-
-ofxBoxEmitter & ofxBoxEmitter::setWorld(b2World * _b2dworld, float _groundY){
-	b2dworld = _b2dworld;
-	groundY = _groundY;
-	return * this;
 }
 
 void ofxBoxEmitter::clear(){
@@ -54,7 +49,7 @@ void ofxBoxEmitter::draw(){
 void ofxBoxEmitter::addBox(){
 	ofxBox * b = new ofxBox();
 	b->setPhysics(den, bou, fri);
-	b->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(b2dworld, ofPoint(x,y),groundY);
+	b->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(gameEng, ofPoint(x,y));
 	b->addForce(initForce, forceScale);
 	boxes.push_back(b);
 }
@@ -100,7 +95,7 @@ void ofxBoxEmitter::loadGroup(const string& path, ofPoint _loc){
 		
 		ofxBox * b = new ofxBox();
 		b->setPhysics(den, bou, fri);
-		b->load(_box).setScale(scale).linkToDebug(bDebug).loadToWorld(b2dworld, _pos,groundY);
+		b->load(_box).setScale(scale).linkToDebug(bDebug).loadToWorld(gameEng, _pos);
 		boxes.push_back(b);
 	}
 	

@@ -28,9 +28,9 @@ ofxCharacter & ofxCharacter::load(string _characterName){
 	return * this;
 }
 
-ofxCharacter & ofxCharacter::loadToWorld(b2World * _b2dworld, ofPoint _pos, int _groundY){
-	setup(_b2dworld,_pos.x,_pos.y,width*scale,height*scale);	
-	groundY = _groundY;
+ofxCharacter & ofxCharacter::loadToWorld(ofxGameEng * _gameEng, ofPoint _pos){
+	setup(_gameEng->getWorld(),_pos.x,_pos.y,width*scale,height*scale);	
+	groundY = _gameEng->getGround().y;
 	worldLoaded = true;
 	return * this;
 }

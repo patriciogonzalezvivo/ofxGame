@@ -1,5 +1,5 @@
 /*
- *  ofxCharProxy.h
+ *  ofxCharacterObj.h
  *
  *  Created by Patricio González Vivo on 30/06/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
@@ -12,20 +12,15 @@
 #include "ofxGameObj.h"
 #include "ofxCharacter.h"
 
-class ofxCharProxy : public ofxGameObj {
+class ofxCharacterObj : public ofxGameObj {
 public:
-	ofxCharProxy(){
-	}
-	
-	ofxCharProxy(string _charName);
+	ofxCharacterObj(string _charName);
 	
 	void reset();
-	
-	void update(ofxParticleEmitter * _pEmit){character.update(_pEmit);};
 
 	void draw(){ 
 		character.setScale(scale);
-		character.pos.set(x, y);
+		character.setPosition(x, y);
 		draw(x,y);
 	};	
 	

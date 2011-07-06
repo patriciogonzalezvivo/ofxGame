@@ -1,37 +1,30 @@
 /*
- *  ofxBoxProxy.cpp
+ *  ofxBoxObj.cpp
  *
  *  Created by Patricio González Vivo on 04/07/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
  *
  */
 
-#include "ofxBoxProxy.h"
+#include "ofxBoxObj.h"
 
-ofxBoxProxy::ofxBoxProxy(string _objectName){
+ofxBoxObj::ofxBoxObj(string _objectName){
 	objectName = _objectName;//"box"; 
 	loadXml();
 	loadExtraXml();
 }
 
-ofxBoxProxy & ofxBoxProxy::setWorld(b2World * _b2dworld, float _groundY, int _x, int _y){
-	groundY = _groundY;
-	b2dworld = _b2dworld;
-	init(_x,_y);
+ofxBoxObj & ofxBoxObj::init(int _x, int _y){
+	box = new ofxBox();
+	box->setPhysics(den, bou, fri);
+	box->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(gameEng, ofPoint(_x,_y) );
 	width = box->getWidth()*2;
 	height = box->getHeight()*2;
 	saveXml();
 	return * this;
 }
 
-ofxBoxProxy & ofxBoxProxy::init(int _x, int _y){
-	box = new ofxBox();
-	box->setPhysics(den, bou, fri);
-	box->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(b2dworld, ofPoint(_x,_y),groundY);
-	return * this;
-}
-
-ofxBoxProxy & ofxBoxProxy::restart(){
+ofxBoxObj & ofxBoxObj::restart(){
 	box->destroy();
 	loadXml();
 	init(x,y);
@@ -39,7 +32,7 @@ ofxBoxProxy & ofxBoxProxy::restart(){
 }
 
 
-void ofxBoxProxy::update(ofxParticleEmitter * _pEmit){
+void ofxBoxObj::update(ofxParticleEmitter * _pEmit){
 	x = box->getPosition().x;
 	y = box->getPosition().y;
 	
@@ -47,7 +40,7 @@ void ofxBoxProxy::update(ofxParticleEmitter * _pEmit){
 		_pEmit->addParticle(ofPoint(x,y-getScaledHeight()*0.5));
 };
 
-void ofxBoxProxy::draw(int _level){ 
+void ofxBoxObj::draw(int _level){ 
 	ofSetColor(255, 255);
 	
 	box->draw(_level);
@@ -62,7 +55,7 @@ void ofxBoxProxy::draw(int _level){
 	ofPopMatrix();
 }
 
-void ofxBoxProxy::loadExtraXml(string filePath){
+void ofxBoxObj::loadExtraXml(string filePath){
 	ofxXmlSettings XML;
 	cout << "Reading " << objectName << " configuration file " << filePath;
 	

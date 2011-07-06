@@ -8,7 +8,7 @@
 
 #ifndef OFXPHYSICBOX
 #define OFXPHYSICBOX
-
+#include "ofxGameEng.h"
 #include "ofxBox2d.h"
 #include "ofxElement.h"
 
@@ -20,7 +20,7 @@ public:
 	ofxBox & load(string _objName);
 	ofxBox & setScale(float _scale);
 	ofxBox & linkToDebug(bool * _bDebug);
-	ofxBox & loadToWorld(b2World * _b2dworld, ofPoint _pos, int _groundY);
+	ofxBox & loadToWorld(ofxGameEng * _gameEng, ofPoint _pos);
 	
 	void draw(int _level = -1);
 	

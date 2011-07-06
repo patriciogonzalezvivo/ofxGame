@@ -18,11 +18,11 @@ public:
 	
 	void drawBoundingBox();
 	
-	void	setDebug(bool * _bDebug){bDebug = _bDebug;};
-	void	setPosition(int _x, int _y){x = _x; y = _y; saveXml();};
-	void	setScale(float _scale){scale = _scale; saveXml(); };
-	void	expand(float _scaleAmount){ scale += _scaleAmount; saveXml(); };
-	void	contract(float _scaleAmount){ scale -= _scaleAmount; saveXml(); };
+	ofxGameObj&	setDebug(bool * _bDebug){bDebug = _bDebug;return * this;};
+	ofxGameObj&	setPosition(int _x, int _y){x = _x; y = _y; saveXml();return * this;};
+	ofxGameObj&	setScale(float _scale){scale = _scale; saveXml();return * this; };
+	ofxGameObj&	expand(float _scaleAmount){ scale += _scaleAmount; saveXml();return * this; };
+	ofxGameObj&	contract(float _scaleAmount){ scale -= _scaleAmount; saveXml();return * this; };
 	
 	float	getScaledWidth(){return width * scale;};
 	float	getScaledHeight(){return height * scale;};
@@ -35,7 +35,8 @@ public:
 protected:	
 	void	loadXml(string filePath = "config.xml");
 	void	saveXml(string filePath = "config.xml");
-
+	
+	ofColor	objColor;
 	string	file, objectName;
 	bool	* bDebug;
 	int		x,y,width,height;

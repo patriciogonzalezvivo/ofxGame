@@ -6,9 +6,9 @@
  *
  */
 
-#include "ofxCharProxy.h"
+#include "ofxCharacterObj.h"
 
-ofxCharProxy::ofxCharProxy(string _charName){
+ofxCharacterObj::ofxCharacterObj(string _charName){
 	objectName = _charName;//"character"; 
 	loadXml();
 	loadExtraXml();
@@ -17,7 +17,7 @@ ofxCharProxy::ofxCharProxy(string _charName){
 	saveXml();
 }
 
-void ofxCharProxy::reset(){
+void ofxCharacterObj::reset(){
 	character.setOrientation(ori);
 	character.setPhysics(den, bou, fri);
 	width = character.getWidth()*2;
@@ -26,7 +26,7 @@ void ofxCharProxy::reset(){
 	character.pos.set(x, y);
 }
 
-void ofxCharProxy::draw(int _x, int _y){
+void ofxCharacterObj::draw(int _x, int _y){
 	ofSetColor(255, 255);
 	character.draw(*bDebug);
 	
@@ -40,7 +40,7 @@ void ofxCharProxy::draw(int _x, int _y){
 	ofPopMatrix();
 }
 
-void ofxCharProxy::loadExtraXml(string filePath){
+void ofxCharacterObj::loadExtraXml(string filePath){
 	ofxXmlSettings XML;
 	cout << "Reading " << objectName << " configuration file " << filePath;
 	

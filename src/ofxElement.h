@@ -36,17 +36,17 @@ public:
 		cout << "-- Loading Element " << _imagePath << " w:" << width << " h:" << height << endl;
 	};
 	
-	void	setScale(float * _scale){scale = _scale;};
-	void	setBodyNorth(float * _bodyNorth){bodyNorth = _bodyNorth;};
-	void	setBodyCenter(ofVec2f * _bodyCenter){bodyCenter = _bodyCenter;};
-	void	setRadio(float _radio){radio = _radio;};
-	void	setRadio(ofVec2f _pos){ radio = _pos.distance(*bodyCenter);};
-	void	setAngle(float _angle){angle = _angle;};
-	void	setAngle(ofVec2f _pos){ _pos -= *bodyCenter; angle = ( (-1*atan2(_pos.x,_pos.y)+(PI/2) - *bodyNorth)); };
-	void	moveTo(int _x, int _y){moveTo(ofVec2f(_x,_y));};
-	void	moveTo(ofVec2f _location){ setRadio(_location); setAngle(_location); };
+	ofxElement&	setScale(float * _scale){scale = _scale; return * this;};
+	ofxElement&	setBodyNorth(float * _bodyNorth){bodyNorth = _bodyNorth; return * this;};
+	ofxElement&	setBodyCenter(ofVec2f * _bodyCenter){bodyCenter = _bodyCenter; return * this;};
+	ofxElement&	setRadio(float _radio){radio = _radio; return * this;};
+	ofxElement&	setRadio(ofVec2f _pos){ radio = _pos.distance(*bodyCenter); return * this;};
+	ofxElement&	setAngle(float _angle){angle = _angle; return * this;};
+	ofxElement&	setAngle(ofVec2f _pos){ _pos -= *bodyCenter; angle = ( (-1*atan2(_pos.x,_pos.y)+(PI/2) - *bodyNorth)); return * this;};
+	ofxElement&	moveTo(int _x, int _y){moveTo(ofVec2f(_x,_y)); return * this;};
+	ofxElement&	moveTo(ofVec2f _location){ setRadio(_location); setAngle(_location); return * this;};
 	
-	void	fromPolarToCart(){ // Transform from polar to Cartesian
+	void fromPolarToCart(){ // Transform from polar to Cartesian
 		float propRadio = radio * (*scale);
 		
 		pos.x = propRadio * cos(angle + *bodyNorth);

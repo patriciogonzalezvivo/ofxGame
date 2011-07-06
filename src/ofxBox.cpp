@@ -38,10 +38,10 @@ ofxBox & ofxBox::linkToDebug(bool * _bDebug){
 	return * this;
 }
 
-ofxBox & ofxBox::loadToWorld(b2World * _b2dworld, ofPoint _pos, int _groundY) {
-	groundY = _groundY;
+ofxBox & ofxBox::loadToWorld(ofxGameEng * _gameEng, ofPoint _pos) {
+	groundY = _gameEng->getGround().y;
 	cout << "- Inserting object to the world width" << width << "x" << height << " at " << pos.x << "x" << pos.y << endl;
-	setup(_b2dworld,_pos.x,_pos.y,width*0.5,height*0.5);
+	setup(_gameEng->getWorld(),_pos.x,_pos.y,width*0.5,height*0.5);
 	pos = getPosition();
 	return * this;
 }

@@ -6,24 +6,34 @@
  *
  */
 
-// Parent
-#include "ofxGameObj.h"
+// Addon´s need
+#include "ofxBox2d.h"		// github.com/vanderlin/ofxBox2d -> addon/ofxBox2d
 
-// Childs
-#include "ofxBackground.h"
-#include "ofxBanner.h"
-
-#include "ofxBoxProxy.h"
-#include "ofxBoxEmitter.h"
-
-#include "ofxCharacter.h"
-#include "ofxCharProxy.h"
-
+// Main
+#include "ofxGameEng.h"		// Enginer
+#include "ofxGameCam.h"		// Camera
+#include "ofxGameObj.h"		// Objects Parent
+ 
+// Objects ( ofxGameObj.h childs )
+#include "ofxMask.h"
 #include "ofxClock.h"
+#include "ofxPlace.h"
+#include "ofxPicture.h"
+
+#include "ofxCharacterObj.h"	
+#include "ofxCharacter.h"
+// made from ofxElement.h
+
+#include "ofxBoxEmitter.h"
+#include "ofxBoxObj.h"		
+// made from ofxElement.h
 
 #include "ofxParticleEmitter.h"
-#include "ofxPlace.h"
+// that use ofxParticles.h
 
-#include "ofxUser.h"
+
+
+
+
 
 

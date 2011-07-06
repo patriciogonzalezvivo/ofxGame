@@ -12,6 +12,7 @@
 #include "ofMain.h"
 #include "ofxBox2d.h"
 
+#include "ofxGameEng.h"
 #include "ofxElement.h"
 #include "ofxParticleEmitter.h"
 
@@ -19,8 +20,9 @@ class ofxCharacter : public ofxBox2dRect{
 public:
 	ofxCharacter();
 	
-	ofxCharacter &	load(string _characterName);;
-	ofxCharacter &	loadToWorld(b2World * _b2dworld, ofPoint _pos, int _groundY = 0);
+	ofxCharacter &	load(string _characterName);
+	
+	ofxCharacter &	loadToWorld(ofxGameEng * _gameEng, ofPoint _pos);
 	ofxCharacter &	reset();
 	ofxCharacter &	rotate(float _angle){ angle += _angle; return * this;};
 	ofxCharacter &	resize(float _resize){ scale *= _resize; return * this;};
@@ -33,8 +35,8 @@ public:
 	ofxCharacter &	setLeftArmAngle(float _angle){bPart[5].north = _angle; return * this;}
 	ofxCharacter &	setOrientation(string _orientation);
 	
-	int	getWidth(){return width;};
-	int	getHeight(){return height;};
+	int		getWidth(){return width;};
+	int		getHeight(){return height;};
 	
 	void update(ofxParticleEmitter * _clouds);
 	void draw(bool _bDebug);

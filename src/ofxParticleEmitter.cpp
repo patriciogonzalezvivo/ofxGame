@@ -12,6 +12,7 @@ ofxParticleEmitter::ofxParticleEmitter(string _objectName){
 	objectName = _objectName;
 	fade = -1;
 	melt = -1;
+	objColor.setHex(0xffcc33);
 	loadXml();
 	loadExtraXml();
 	pImage.loadImage(file);
@@ -31,10 +32,10 @@ void ofxParticleEmitter::update(){
 			particles[i].update();
 		
 		if (fade != -1)
-			particles[i].applyAlpha((fade==0)?false:true);
+			particles[i].applyAlphaFade((fade==0)?false:true);
 		
 		if (melt != -1)
-			particles[i].applyScale((melt==0)?false:true);
+			particles[i].applySizeFade((melt==0)?false:true);
 		
 		particles[i].life--;
 	}
@@ -74,11 +75,8 @@ void ofxParticleEmitter::addParticle(ofPoint _loc){
 
 void ofxParticleEmitter::addParticle(ofVec2f _loc, ofVec2f _vel, int _life, float _scale){
 	ofxParticle p;
-	p.loc = _loc;
-	p.vel = _vel;
-	p.setImage(&pImage);
-	p.setLife(_life);
-	p.scale = _scale;
+	
+	p.setPosition(_loc).setVelocity(_vel).setScale(_scale).setLife(_life).setImage(&pImage);
 	
 	particles.push_back(p);
 }
@@ -98,8 +96,8 @@ void ofxParticleEmitter::loadExtraXml(string filePath){
 		spe			= XML.getValue(objectName+":speedLimit",0);
 		
 		noise	= XML.tagExists(objectName+":noise");
-		fade	= XML.getValue(objectName+":fade",-1);
-		melt	= XML.getValue(objectName+":melt",-1);
+		fade	= XML.getValue(objectName+":alfafade",-1);
+		melt	= XML.getValue(objectName+":sizefade",-1);
 		
 		if (noise){
 			noiseAngle= XML.getValue(objectName+":noise:angle",12);

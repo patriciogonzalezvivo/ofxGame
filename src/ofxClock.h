@@ -23,15 +23,14 @@ public:
 		saveXml();
 	};
 	
-	void	setFps(float _fps = 30){fps = _fps;};	// default 30fps 
+	ofxClock& setFps(float _fps = 30){fps = _fps;return * this;};	// default 30fps 
 	
-	void	start(int _seconds){timer = _seconds*fps;};
-	void	stop(){timer -1;};
+	ofxClock& start(int _seconds){timer = _seconds*fps;return * this;};
+	ofxClock& stop(){timer -1;return * this;};
 	
 	bool	isDone(){return (timer == -1)?true:false;}
 	
 	void	update(){ if (timer >= 0) timer--; else stop(); };
-	
 	void	draw(){ draw(x,y);};
 	void	draw(int _x, int _y){
 		if (timer != -1) {

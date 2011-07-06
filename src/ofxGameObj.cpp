@@ -15,11 +15,12 @@ ofxGameObj::ofxGameObj(){
 	height = 0;
 	scale = 1;
 	file = "none";
+	objColor.setHex(0xeeeeee);
 }
 
 void ofxGameObj::drawBoundingBox(){
 	glLineWidth(0);
-	ofSetColor(255, 255);
+	ofSetColor(objColor);
 	ofLine(0,0, 0, height);
 	ofLine(0,0, width, 0);
 	ofLine(width,0, 0, 0);
