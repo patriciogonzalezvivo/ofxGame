@@ -8,16 +8,22 @@
 
 #include "ofxBoxObj.h"
 
+ofxBoxObj::ofxBoxObj(){
+	objectName = "box"; 
+	loadXml();
+	loadExtraXml("config.xml");
+}
+
 ofxBoxObj::ofxBoxObj(string _objectName){
 	objectName = _objectName;//"box"; 
 	loadXml();
-	loadExtraXml();
+	loadExtraXml("config.xml");
 }
 
 ofxBoxObj & ofxBoxObj::init(int _x, int _y){
 	box = new ofxBox();
 	box->setPhysics(den, bou, fri);
-	box->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(gameEng, ofPoint(_x,_y) );
+	box->load(file).setScale(scale).setDebug(bDebug).loadToWorld(gameEng, ofPoint(_x,_y));
 	width = box->getWidth()*2;
 	height = box->getHeight()*2;
 	saveXml();
@@ -31,7 +37,6 @@ ofxBoxObj & ofxBoxObj::restart(){
 	return * this;
 }
 
-
 void ofxBoxObj::update(ofxParticleEmitter * _pEmit){
 	x = box->getPosition().x;
 	y = box->getPosition().y;
@@ -42,7 +47,6 @@ void ofxBoxObj::update(ofxParticleEmitter * _pEmit){
 
 void ofxBoxObj::draw(int _level){ 
 	ofSetColor(255, 255);
-	
 	box->draw(_level);
 	
 	ofPushMatrix();
@@ -62,6 +66,7 @@ void ofxBoxObj::loadExtraXml(string filePath){
 	if (XML.loadFile(filePath)){
 		//cout << " [ OK ]" << endl;
 		
+		ori = XML.getValue(objectName+":orientation","LEFT");
 		den = XML.getValue(objectName+":density",0.5);
 		bou = XML.getValue(objectName+":bounce",0.5);
 		fri = XML.getValue(objectName+":friction",0.5);

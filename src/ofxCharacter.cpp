@@ -56,62 +56,12 @@ ofxCharacter & ofxCharacter::setOrientation(string _orientation){
 	return * this;
 }
 
-void ofxCharacter::update(ofxParticleEmitter * _clouds){
-	if (worldLoaded){
-		pos = getPosition();
-		vel = getVelocity();
-		//angle = body->GetAngle();
-		
-		if ((vel.x  > 3.5) && (groundY - pos.y <= height+20)){
-			if ( ofRandom(0, 100) < 30)
-			_clouds->addParticle(	ofVec3f((int)pos.x,
-											pos.y+getHeight()*0.75,
-											0),
-									ofVec3f(-1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),
-											ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10),
-											0));
-		}
-		
-		if ((vel.x < -3.5) && (groundY - pos.y <= height+20)){
-			if ( ofRandom(0, 100) < 30)
-				_clouds->addParticle(	ofVec3f((int)pos.x, 
-												pos.y+getHeight()*0.75, 
-												0),
-										ofVec3f(1*ofNoise(ofGetFrameNum()/25)*ofRandom(0,20),
-												ofNoise(ofGetFrameNum()/25)*ofRandom(0,-10),
-												0));
-		}
-		
-		if ( ((int)(getVelocity().x*10)) < 0)
-			setOrientation("RIGHT");
-		else if ( (int)(getVelocity().x*10) > 0)
-			setOrientation("LEFT");
-	}
-}
-
 void ofxCharacter::draw(bool _bDebug=false){
-	/* if ( (int) vel.x == 0 ){
-	 if (groundY == 0)
-	 bPart[0].draw();	// Shadow
-	 else
-	 bPart[0].draw(bPart[0].pos.x,groundY,ofMap(groundY-bPart[0].pos.y,0,groundY,1,0));	// DrawShadow on the floor
-	 
-	 bPart[1].mirror = false;
-	 bPart[1].draw();	// Arm L
-	 bPart[2].mirror = false;
-	 bPart[2].draw();	// Leg L
-	 bPart[3].mirror = true;
-	 bPart[3].draw();	// Leg R
-	 bPart[5].mirror = false;
-	 bPart[5].draw();	// Arm R
-	 bPart[6].draw();	// Front Body
-	 } else */
 	if (orientation == "LEFT"){
 		if (groundY == 0)
 			bPart[0].draw();	// Shadow
 		else
-			bPart[0].draw(bPart[0].pos.x,groundY,ofMap(groundY-bPart[0].pos.y,0,groundY,1,0));
-		//bPart[0].draw(bPart[0].pos.x,groundY-bPart[0].getHeight()*0.5,ofMap(groundY-bPart[0].pos.y,0,groundY,1,0));
+			bPart[0].draw(pos.x,groundY,ofMap(groundY-pos.y,height,groundY-height,1,0));
 		
 		bPart[1].mirror = false;
 		bPart[1].draw();	// Arm L
@@ -127,7 +77,7 @@ void ofxCharacter::draw(bool _bDebug=false){
 		if (groundY == 0)
 			bPart[0].draw();	// Shadow
 		else
-			bPart[0].draw(bPart[0].pos.x,groundY,ofMap(groundY-bPart[0].pos.y,0,groundY,1,0));	// Draw shadow on the floot
+			bPart[0].draw(pos.x,groundY,ofMap(groundY-pos.y,height,groundY-height,1,0));
 		
 		bPart[5].mirror = true;
 		bPart[5].draw();	// Arm R

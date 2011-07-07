@@ -11,42 +11,42 @@
 ofxBox::ofxBox() {
 	angle = 0;
 	scale = 1;
-	width = 10;
-	height = 10;
+	width = -1;
+	height = -1;
 	groundY = 0;
+	
 	pos = ofVec2f(0,0);
 	vel = ofVec2f(0,0);
+	
+	orientation = "LEFT";
 	bDebug = NULL;
 }
 
-ofxBox & ofxBox::load(string _objName){ 
+ofxBox& ofxBox::load(string _objName){ 
 	objDir = _objName; 
 	string _path = objDir+ "/config.box"; 
 	loadParts( _path );
 	return * this; 
 }
 
-ofxBox & ofxBox::setScale(float _scale){
-	scale = _scale; 
-	width *= scale; 
-	height *= scale; 
-	return * this; 
-}
-
-ofxBox & ofxBox::linkToDebug(bool * _bDebug){ 
-	bDebug = _bDebug; 
-	return * this;
-}
-
-ofxBox & ofxBox::loadToWorld(ofxGameEng * _gameEng, ofPoint _pos) {
+ofxBox& ofxBox::loadToWorld(ofxGameEng * _gameEng, ofPoint _pos) {
+	setup(_gameEng->getWorld(),_pos.x,_pos.y,width*0.5*scale,height*0.5*scale);
 	groundY = _gameEng->getGround().y;
-	//cout << "- Inserting object to the world width" << width << "x" << height << " at " << pos.x << "x" << pos.y << endl;
-	setup(_gameEng->getWorld(),_pos.x,_pos.y,width*0.5,height*0.5);
 	pos = getPosition();
 	return * this;
 }
 
-//------------------------------------------------
+ofxBox& ofxBox::setOrientation(string _orientation){
+	if (_orientation != orientation) {
+		orientation = _orientation;
+		if (body != NULL){
+			vel = getVelocity();
+			addForce(ofVec2f(vel.x*-1,0), 15);
+		}
+	}
+	return * this;
+};
+
 void ofxBox::draw(int _level) {
 	if(body == NULL)
 		return;	
@@ -59,22 +59,24 @@ void ofxBox::draw(int _level) {
 		angle = 0;
 	
 	if (_level == -1){
+		/*
+		 for (int i = 0; i < bPart.size(); i++)
+		 bPart[i].draw();
+		 */
 		if ((groundY != 0) && (groundY - (pos.y+height*0.5) < 1)){
 			if ((int)vel.x == 0)
 				element[1].draw(element[1].pos.x,groundY-element[1].getHeight()*0.5,ofMap(groundY-element[1].pos.y,0,groundY,1,0));	// draw Shadow on the floor
 			else if (vel.x >= 1){
 				element[0].mirror = false;
-				element[0].draw(ofMap(vel.x,1,2,0,-1,true));	// draw a fastShadow on the floor
+				element[0].draw(ofMap(vel.x,1,2,0,-1,true));
 			} else if (vel.x <= -1){
 				element[0].mirror = false;
 				element[0].draw(ofMap(vel.x*-1,1,2,0,1,true));
 			}
-			
 		}
-		
 		element[2].draw();	// draw body
 		
-	} else {
+	} else if (_level < element.size()){
 		element[_level].draw();
 	}
 	
@@ -123,6 +125,10 @@ void ofxBox::loadParts(const string& path){
 			//cout << "--- Core Structure Found width " << width << "x" << height << endl;
 		}
 		
+		if (_pathImage == (objDir + "/shadow.png")){
+			height = p.getRadio();
+		}
+		
 		p.setScale(&scale);
 		p.setBodyNorth(&angle);
 		p.setBodyCenter(&pos);
@@ -134,4 +140,7 @@ void ofxBox::loadParts(const string& path){
 	fs.seekg(0,ios::beg);
 	fs.clear();
 	fs.close();
+	
+	if ((width == -1) && (height != -1))
+		height = width;
 }

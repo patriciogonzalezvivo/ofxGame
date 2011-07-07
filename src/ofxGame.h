@@ -24,7 +24,7 @@
 #include "ofxCharacter.h"
 // made from ofxElement.h
 
-#include "ofxBoxEmitter.h"
+#include "ofxBoxEmitter.h"nn
 #include "ofxBoxObj.h"		
 // made from ofxElement.h
 

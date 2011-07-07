@@ -49,7 +49,7 @@ void ofxBoxEmitter::draw(){
 void ofxBoxEmitter::addBox(){
 	ofxBox * b = new ofxBox();
 	b->setPhysics(den, bou, fri);
-	b->load(file).setScale(scale).linkToDebug(bDebug).loadToWorld(gameEng, ofPoint(x,y));
+	b->load(file).setScale(scale).setDebug(bDebug).loadToWorld(gameEng, ofPoint(x,y));
 	b->addForce(initForce, forceScale);
 	boxes.push_back(b);
 }
@@ -95,7 +95,7 @@ void ofxBoxEmitter::loadGroup(const string& path, ofPoint _loc){
 		
 		ofxBox * b = new ofxBox();
 		b->setPhysics(den, bou, fri);
-		b->load(_box).setScale(scale).linkToDebug(bDebug).loadToWorld(gameEng, _pos);
+		b->load(_box).setScale(scale).setDebug(bDebug).loadToWorld(gameEng, _pos);
 		boxes.push_back(b);
 	}
 	

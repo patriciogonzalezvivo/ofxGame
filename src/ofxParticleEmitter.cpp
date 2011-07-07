@@ -15,7 +15,8 @@ ofxParticleEmitter::ofxParticleEmitter(string _objectName){
 	objColor.setHex(0xffcc33);
 	loadXml();
 	loadExtraXml();
-	pImage.loadImage(file);
+	if (file != "none")
+		pImage.loadImage(file);
 }
 
 void ofxParticleEmitter::update(){

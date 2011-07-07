@@ -14,7 +14,6 @@
 
 #include "ofxGameEng.h"
 #include "ofxElement.h"
-#include "ofxParticleEmitter.h"
 
 class ofxCharacter : public ofxBox2dRect{	
 public:
@@ -38,7 +37,7 @@ public:
 	int		getWidth(){return width;};
 	int		getHeight(){return height;};
 	
-	void update(ofxParticleEmitter * _clouds);
+	
 	void draw(bool _bDebug);
 	
 	bool isOver(int _x, int _y){ isOver(ofVec2f(_x,_y)); };

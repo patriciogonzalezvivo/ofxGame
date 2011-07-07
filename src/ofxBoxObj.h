@@ -17,6 +17,7 @@
 
 class ofxBoxObj : public ofxGameObj {
 public:
+	ofxBoxObj();
 	ofxBoxObj(string _objectName);
 	~ofxBoxObj(){ box->destroy(); };
 	
@@ -25,6 +26,7 @@ public:
 	ofxBoxObj& init(int _x, int _y);
 	ofxBoxObj& restart();
 	
+	ofxBox*		getBox(){return box;};
 	void update(ofxParticleEmitter * _pEmit);
 	void draw(int _level = -1);
 	
@@ -33,6 +35,7 @@ protected:
 	ofxGameEng* gameEng;
 	ofxBox*		box;
 	b2World *	b2dworld;
+	string		ori;
 	float		den, bou, fri,groundY;				
 };
 #endif
