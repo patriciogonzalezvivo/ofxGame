@@ -6,11 +6,16 @@
  *
  */
 
+//#define BOX2D
+
 #ifndef OFXGAMECAM
 #define OFXGAMECAM
 
 #include "ofMain.h"
+
+#ifdef BOX2D
 #include "ofxBox2d.h"
+#endif
 
 #include "ofxGameObj.h"
 
@@ -18,7 +23,9 @@ class ofxGameCam{
 public:
 	ofxGameCam(){
 		area = NULL;
+		#ifdef BOX2D
 		targetShp = NULL;
+		#endif
 		targetObj = NULL;
 		
 		vel = 0;
@@ -65,8 +72,19 @@ public:
 	}
 	
 	ofxGameCam& setArea(ofxGameObj * _area){area = _area; return * this; };
+	#ifdef BOX2D
 	ofxGameCam& setTarget(ofxBox2dBaseShape * _targetShp){targetShp = _targetShp; targetObj = NULL; setOffset(); return * this; };
-	ofxGameCam& setTarget(ofxGameObj * _targetObj){targetObj = _targetObj;targetShp = NULL; setOffset(); return * this; };
+	#endif
+	
+	ofxGameCam& setTarget(ofxGameObj * _targetObj){
+		targetObj = _targetObj;
+		#ifdef BOX2D
+		targetShp = NULL; 
+		#endif
+		setOffset(); 
+		return * this; 
+	};
+	
 	ofxGameCam& setOffset(float _xOffset = -1, float _yOffset = -1){
 		if (_xOffset == -1)
 			xOffset = xDefaultOffset;
@@ -82,12 +100,17 @@ public:
 	
 	ofxGameCam& apply(){
 		if (area != NULL){
+			#ifdef BOX2D
 			if ((targetObj != NULL)|| (targetShp != NULL)){
+			#else
+			if (targetObj != NULL){
+			#endif
 				if (targetObj != NULL)
 					target = targetObj->getPosition();
-				
+				#ifdef BOX2D
 				if (targetShp != NULL)
 					target = targetShp->getPosition();
+				#endif
 			
 				ofVec2f displacementToTarget(0,0);
 				
@@ -151,7 +174,9 @@ public:
 	
 protected:	
 	ofVec2f				target,displacement;
+	#ifdef BOX2D
 	ofxBox2dBaseShape*	targetShp;
+	#endif
 	ofxGameObj*			targetObj;
 	ofxGameObj*			area;
 	

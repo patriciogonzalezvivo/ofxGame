@@ -59,6 +59,10 @@ public:
 		ofPopMatrix();
 	};
 	
+	int getMaskWidth(){return usersMasked.getWidth();};
+	int getMaskHeight(){return usersMasked.getHeight();};
+	unsigned char * getPixels(){return usersMasked.getPixels();};
+	
 private:
 	void superFastBlur(unsigned char *pix, int radius){  
 		int w = width;

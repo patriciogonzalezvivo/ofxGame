@@ -29,7 +29,6 @@ public:
 	ofPoint	getPosition(){ return ofPoint(x,y);};
 	float	getScale(){return scale;};
 	
-	virtual void update(){};
 	virtual void draw(){};
 	
 	bool	isOver(ofPoint _loc){return isOver(_loc.x, _loc.y);};
