@@ -4,6 +4,11 @@
  *  Created by Patricio González Vivo on 05/07/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
  *
+ *
+ *  This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 
+ *	Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ 
+ *	or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+ *
  */
 
 //#define BOX2D
@@ -160,6 +165,7 @@ public:
 	
 	int		getWidth(){return width;};
 	int		getHeight(){return height;};
+	string  getTargetName(){return targetObj->getObjectName();};
 	
 	bool	isOver(ofPoint _loc){return isOver(_loc.x, _loc.y);};
 	bool	isOver(float _x, float _y){

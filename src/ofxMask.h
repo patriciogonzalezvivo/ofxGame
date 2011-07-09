@@ -4,7 +4,9 @@
  *  Created by Patricio González Vivo on 30/06/11.
  *  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
  *
- *  Kinect User masking GameObject
+ *  This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 
+ *	Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ 
+ *	or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  */
 
@@ -22,11 +24,13 @@ public:
 			width = 640;
 		if ( !(height > 0) )
 			height = 480;
-		
-		usersMasked.allocate(width, height, OF_IMAGE_COLOR_ALPHA);
+			usersMasked.allocate(width, height, OF_IMAGE_COLOR_ALPHA);
+		pAverage = 0;
 	};
 		
 	void update(unsigned char * mskPixels, unsigned char * imagePixels, int blurAmount = 0){
+		pAverage = 0;
+		
 		if (blurAmount > 0)
 			superFastBlur(mskPixels, blurAmount);
 		
@@ -38,9 +42,14 @@ public:
 				fPixels[p * 4 + 0] = imagePixels[p * 3 + 0];
 				fPixels[p * 4 + 1] = imagePixels[p * 3 + 1];
 				fPixels[p * 4 + 2] = imagePixels[p * 3 + 2];
-				fPixels[p * 4 + 3] = mskPixels[p];				
+				fPixels[p * 4 + 3] = mskPixels[p];	
+				
+				if (mskPixels[p] > 100)
+					pAverage++;				//This is handy for using users masks like triggers
 			}
 		}
+		
+		pAverage /= width*height;
 		usersMasked.setFromPixels( fPixels , width, height, OF_IMAGE_COLOR_ALPHA);
 	};
 	
@@ -59,11 +68,14 @@ public:
 		ofPopMatrix();
 	};
 	
-	int getMaskWidth(){return usersMasked.getWidth();};
-	int getMaskHeight(){return usersMasked.getHeight();};
+	float	getAverage(){return pAverage;};
+	int		getMaskWidth(){return usersMasked.getWidth();};
+	int		getMaskHeight(){return usersMasked.getHeight();};
 	unsigned char * getPixels(){return usersMasked.getPixels();};
 	
 private:
+	float pAverage;
+	
 	void superFastBlur(unsigned char *pix, int radius){  
 		int w = width;
 		int h = height;
