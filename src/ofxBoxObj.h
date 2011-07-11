@@ -16,9 +16,8 @@
 
 #include "ofxBox.h"
 #include "ofxGameObj.h"
-#include "ofxGameEng.h"
-
 #include "ofxParticleEmitter.h"
+#include "ofxGameEng.h"
 
 class ofxBoxObj : public ofxGameObj {
 public:

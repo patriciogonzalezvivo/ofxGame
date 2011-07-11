@@ -13,9 +13,11 @@
 
 #ifndef OFXPHYSICBOX
 #define OFXPHYSICBOX
-#include "ofxGameEng.h"
-#include "ofxBox2d.h"
+
 #include "ofxElement.h"
+
+#include "ofxBox2d.h"
+#include "ofxGameEng.h"
 
 class ofxBox: public ofxBox2dRect {
 public:

@@ -25,20 +25,24 @@ public:
 		font.loadFont(file,14);
 		width	= font.stringWidth("00:00");
 		height	= font.stringHeight("00:00");
+		playing = false;
 		saveXml();
 	};
 	
 	ofxClock& setFps(float _fps = 30){fps = _fps;return * this;};	// default 30fps 
 	
-	ofxClock& start(int _seconds){timer = _seconds*fps;return * this;};
-	ofxClock& stop(){timer -1;return * this;};
+	ofxClock& start(int _seconds){timer = _seconds*fps; playing = true;return * this;};
+	ofxClock& pause(){playing = false; return * this;};
+	ofxClock& stop(){playing = false; timer = -1;return * this;};
 	
-	bool	isDone(){return (timer == -1)?true:false;}
+	bool	isPlaying(){return playing;};
+	bool	isDone(){return (timer == -1)?true:false;};
+	int		getSeconds(){return timer/fps;};
 	
-	void	update(){ if (timer >= 0) timer--; else stop(); };
+	void	update(){ if ((timer >= 0)){ if (playing) timer--; } else stop(); };
 	void	draw(){ draw(x,y);};
 	void	draw(int _x, int _y){
-		if (timer != -1) {
+		if ((timer != -1)) {
 			int sec = timer/fps;
 			int inS = (int)sec % 60;
 			int inM = (( (int)sec - inS )/60)%60;
@@ -59,8 +63,6 @@ public:
 		}
 	};
 	
-	int getSeconds(){return timer/fps;};
-	
 protected:
 	string nf(string format, int number) {
 		char buffer[100];
@@ -69,6 +71,7 @@ protected:
 	}
 	
 	ofTrueTypeFont		font;
-	int fps,timer;
+	int		fps,timer;
+	bool	playing;
 };
 #endif

@@ -10,32 +10,38 @@
  *	or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  */
-
-// Addon´s need
-#include "ofxBox2d.h"		// github.com/vanderlin/ofxBox2d -> addon/ofxBox2d
-
-// Main
-#include "ofxGameEng.h"		// Enginer
-#include "ofxGameCam.h"		// Camera
-#include "ofxGameObj.h"		// Objects Parent
  
-// Objects ( ofxGameObj.h childs )
+// BOX2D Engine Related Classes
+#ifdef BOX2D		
+#include "ofxBox2d.h"		// github.com/vanderlin/ofxBox2d -> addon/ofxBox2d
+// Enginer ( BOX2D WORLD)
+#include "ofxGameEng.h"	
+// BOX2D Rectangules
+#include "ofxCharacterObj.h"	
+#include "ofxCharacter.h"	// made from ofxElement.h
+#include "ofxBoxEmitter.h"
+#include "ofxBoxObj.h"		// made from ofxElement.h
+#endif
+
+// Camera
+#include "ofxGameCam.h"		
+// Objects
+#include "ofxGameObj.h"		
+// Objects childs
 #include "ofxMask.h"
 #include "ofxClock.h"
 #include "ofxPlace.h"
 #include "ofxPicture.h"
+#include "ofxVideo.h"
 
-#include "ofxCharacterObj.h"	
-#include "ofxCharacter.h"
-// made from ofxElement.h
+// Particles Systems
+#include "ofxParticleEmitter.h"		// OLD soon replaced
+#include "ofxParticle.h"			// OLD soon replaced
 
-#include "ofxBoxEmitter.h"nn
-#include "ofxBoxObj.h"		
-// made from ofxElement.h
-
-#include "ofxParticleEmitter.h"
-// that use ofxParticles.h
-
+#include "ofxBaseParticleEmitter.h"
+#include "ofxBaseParticleForce.h"
+#include "ofxBaseParticleSpring.h"
+#include "ofxBaseParticle.h"
 
 
 

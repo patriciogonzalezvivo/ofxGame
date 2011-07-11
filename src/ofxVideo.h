@@ -16,8 +16,8 @@
 
 #include "ofxGameObj.h"
 
-//#define	OF_VIDEO_WITH_ALPHA			// Coment this if you don´t have ofxAlpaVideoPlayer
-#ifdef OF_VIDEO_WITH_ALPHA			
+//#define	VIDEO_WITH_ALPHA			// Coment this if you don´t have ofxAlpaVideoPlayer
+#ifdef VIDEO_WITH_ALPHA			
 #include "ofxAlphaVideoPlayer.h"	// You can get it at: http://www.openframeworks.cc/forum/viewtopic.php?f=9&t=364&p=19620#p19620
 #endif
 
@@ -27,18 +27,47 @@ public:
 		objectName = _objName; 
 		loadXml();
 		video.loadMovie(file.c_str()); 
+		video.setLoopState(OF_LOOP_NONE);
 		width = video.width; 
 		height = video.height;
 		saveXml();
-		//video.setPixelFormat(OF_PIXELS_RGBA);
+		objColor.set(255,0,0);
+		bPlaying = false;
+		video.stop();
+	};
+	
+	ofVideoPlayer* getVideo(){ return & video;};
+	
+	void reload(){ 
+		bPlaying = false;
+		video.firstFrame();
+		video.stop();
+		//video.loadMovie(file.c_str()); 
+	};
+	void stop(){ 
+		if (bPlaying){
+			video.stop();
+			bPlaying = false;
+		}
+	};
+	void play(){ 
+		if (!bPlaying){
+			video.play();
+			bPlaying = true;
+		}
+	};
+	
+	void update(){ 
+		if (bPlaying){
+			//video.idleMovie();
+			video.update();
+		}
 		
-		video.play();
-	}
+		if(video.getIsMovieDone()){
+			bPlaying = false;
+		}
+	};
 	
-	void stop(){ video.stop();};
-	void play(){ video.play();};
-	
-	void update(){video.update();};
 	void draw(){ draw(x,y); };
 	void draw(int _x, int _y){
 		ofPushMatrix();
@@ -54,11 +83,14 @@ public:
 		ofPopMatrix();
 	};
 	
+	bool isPlaying(){ return bPlaying;};
+	
 protected:
-#ifdef OF_VIDEO_WITH_ALPHA
+#ifdef VIDEO_WITH_ALPHA
 	ofxAlphaVideoPlayer video;
 #else
 	ofVideoPlayer	video;
 #endif
+	bool bPlaying;
 };
 #endif

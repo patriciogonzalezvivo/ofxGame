@@ -15,10 +15,10 @@
 #define OFXCHARACTER
 
 #include "ofMain.h"
-#include "ofxBox2d.h"
-
 #include "ofxGameEng.h"
 #include "ofxElement.h"
+
+#include "ofxBox2d.h"
 
 class ofxCharacter : public ofxBox2dRect{	
 public:
