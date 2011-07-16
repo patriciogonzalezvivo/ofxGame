@@ -10,7 +10,6 @@
  *	or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  */
-
 #ifndef OFXBOXEMITTER
 #define OFXBOXEMITTER
 
@@ -37,6 +36,7 @@ protected:
 	void loadExtraXml(string filePath = "config.xml");
 	ofxGameEng*		gameEng;
 	vector<ofxBox*>	boxes;
+	
 	ofVec2f			initForce;
 	float			den, bou, fri, forceScale;
 };

@@ -165,7 +165,14 @@ public:
 	
 	int		getWidth(){return width;};
 	int		getHeight(){return height;};
-	string  getTargetName(){return targetObj->getObjectName();};
+	string  getTargetName(){
+		if (targetObj != NULL)
+			return targetObj->getObjectName();
+		#ifdef BOX2D
+		else if (targetShp != NULL)
+			return "player";
+		#endif
+	};
 	
 	bool	isOver(ofPoint _loc){return isOver(_loc.x, _loc.y);};
 	bool	isOver(float _x, float _y){

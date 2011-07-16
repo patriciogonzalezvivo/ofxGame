@@ -10,7 +10,7 @@
  *	or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  */
- 
+
 // BOX2D Engine Related Classes
 #ifdef BOX2D		
 #include "ofxBox2d.h"		// github.com/vanderlin/ofxBox2d -> addon/ofxBox2d

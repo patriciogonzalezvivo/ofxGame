@@ -52,12 +52,14 @@ public:
 	}
 	
 	void update(unsigned char * mskPixels, unsigned char * imagePixels, int blurAmount = 0){
+		pAverage = 0;
+		
 		if (blurAmount > 0)
 			superFastBlur(mskPixels, blurAmount);
 		
 		unsigned char * fPixels = usersMasked.getPixels();
 		
-		if (file != none){
+		if (file != "none"){
 			// MASKING WIDTH MATRIX TRANSFORMATION MANUAL CALIBRATION
 			ofVec3f texCoord3D;
 			for( int x = 0; x < width; x++ ){
@@ -76,7 +78,7 @@ public:
 						fPixels[p * 4 + 1] = imagePixels[hP * 3 + 1];
 						fPixels[p * 4 + 2] = imagePixels[hP * 3 + 2];
 						fPixels[p * 4 + 3] = mskPixels[p];	
-						
+						pAverage++;
 					} else {
 						fPixels[p * 4 + 0] = mskPixels[p];
 						fPixels[p * 4 + 1] = mskPixels[p];
@@ -93,11 +95,15 @@ public:
 					fPixels[p * 4 + 0] = imagePixels[p * 3 + 0];
 					fPixels[p * 4 + 1] = imagePixels[p * 3 + 1];
 					fPixels[p * 4 + 2] = imagePixels[p * 3 + 2];
-					fPixels[p * 4 + 3] = mskPixels[p];				
+					fPixels[p * 4 + 3] = mskPixels[p];	
+					
+					if (mskPixels[p] > 10)
+						pAverage++;
 				}
 			}
 		}
 		
+		pAverage /= width*height;
 		usersMasked.setFromPixels( fPixels , width, height, OF_IMAGE_COLOR_ALPHA);
 	};
 	
@@ -116,7 +122,14 @@ public:
 		ofPopMatrix();
 	};
 	
+	float	getAverage(){return pAverage;};
+	int		getMaskWidth(){return usersMasked.getWidth();};
+	int		getMaskHeight(){return usersMasked.getHeight();};
+	unsigned char * getPixels(){return usersMasked.getPixels();};
+	
 private:
+	float pAverage;
+	
 	void superFastBlur(unsigned char *pix, int radius){  
 		int w = width;
 		int h = height;
